@@ -1,0 +1,50 @@
+[profile.default]
+src = "src"
+test = "test"
+out = "out"
+libs = ["lib"]
+auto_detect_remappings = false
+solc = "0.8.26"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+deny = "warnings"
+ignored_warnings_from = ["lib/"]
+via_ir = true
+additional_compiler_profiles = [
+  { name = "v4-posm", via_ir = true, optimizer_runs = 500 },
+  { name = "v4-manager", via_ir = true, optimizer_runs = 44444444 },
+]
+compilation_restrictions = [
+  { paths = "lib/v4-periphery/src/PositionManager.sol", via_ir = true, optimizer_runs = 500 },
+  { paths = "lib/v4-periphery/lib/v4-core/src/PoolManager.sol", via_ir = true, optimizer_runs = 44444444 },
+]
+
+[fuzz]
+runs = 512
+
+[invariant]
+runs = 128
+depth = 64
+
+[lint]
+ignore = ["test/*.sol", "script/*.sol"]
+exclude_lints = [
+  "reentrancy-eth",
+  "reentrancy-no-eth",
+  "reentrancy-events",
+  "arbitrary-send-eth",
+  "missing-zero-check",
+  "missing-events-access-control",
+  "divide-before-multiply",
+  "unused-return",
+  "erc20-unchecked-transfer",
+  "calls-loop",
+  "require-revert-in-loop",
+  "uninitialized-local",
+  "unsafe-typecast",
+  "block-timestamp",
+  "missing-events-arithmetic",
+  "encode-packed-collision",
+  "locked-ether",
+]
